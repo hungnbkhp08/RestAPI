@@ -25,10 +25,6 @@ class LoginRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
-
-class Item(BaseModel):
-    text: str = None
-    is_done: bool = False
 items = []
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
@@ -82,6 +78,4 @@ def read_item(item_id: int, current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail=f"Item {item_id} not found")
     return items[item_id-1]
 
-@app.get("/items", response_model=list[Item])
-def list_items(limit: int = 10, current_user: dict = Depends(get_current_user)):
-    return items[:limit]
+
